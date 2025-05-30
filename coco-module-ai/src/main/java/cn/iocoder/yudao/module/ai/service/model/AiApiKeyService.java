@@ -6,9 +6,6 @@ import cn.iocoder.yudao.module.ai.controller.admin.model.vo.apikey.AiApiKeyPageR
 import cn.iocoder.yudao.module.ai.controller.admin.model.vo.apikey.AiApiKeySaveReqVO;
 import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiApiKeyDO;
 import jakarta.validation.Valid;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * AI API 密钥 Service 接口
@@ -29,30 +26,4 @@ public interface AiApiKeyService {
      * @return API 密钥分页
      */
     PageResult<AiApiKeyDO> getApiKeyPage( AiApiKeyPageReqVO pageReqVO);
-    /**
-     * 获得 API 密钥
-     *
-     * @param id 编号
-     * @return API 密钥
-     */
-    AiApiKeyDO getApiKey(Long id);
-
-    /**
-     * 更新 API 密钥
-     *
-     * @param updateReqVO 更新信息
-     */
-    void updateApiKey(AiApiKeySaveReqVO updateReqVO);
-
-    /**
-     * 删除 API 密钥
-     * @param id
-     */
-    void deleteApiKey(Long id);
-
-    /**
-     * 获得 API 密钥分页列表
-     * @return
-     */
-    List<AiApiKeyDO> getApiKeyList();
 }
