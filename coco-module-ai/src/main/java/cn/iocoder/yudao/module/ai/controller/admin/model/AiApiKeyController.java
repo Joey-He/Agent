@@ -16,6 +16,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
+
 @Tag(name = "管理后台 - AI API 密钥")
 @RestController
 @RequestMapping("/ai/api-key")
@@ -38,6 +40,29 @@ public class AiApiKeyController {
     public CommonResult<PageResult<AiApiKeyRespVO>> getApiKeyPage(@Valid AiApiKeyPageReqVO pageReqVO){
         PageResult<AiApiKeyDO> pageResult = apiKeyService.getApiKeyPage(pageReqVO);
         return CommonResult.success(BeanUtils.toBean(pageResult, AiApiKeyRespVO.class));
+    }
+
+    @GetMapping("/get")
+    @Operation(summary = "获得 API 密钥分页")
+    @PreAuthorize("@ss.hasPermission('ai:api-key:query')")
+    public CommonResult<AiApiKeyRespVO> getApiKey(@RequestParam("id") Long id){
+        AiApiKeyDO apiKey = apiKeyService.getApiKey(id);
+        return CommonResult.success(BeanUtils.toBean(apiKey, AiApiKeyRespVO.class));
+    }
+    @PutMapping("/update")
+    @Operation(summary = "更新 API 密钥")
+    @PreAuthorize("@ss.hasPermission('ai:api-key:update')")
+    public CommonResult<Boolean> updateApiKey(@Valid @RequestBody AiApiKeySaveReqVO updateReqVO ){
+        apiKeyService.updateApiKey(updateReqVO);
+        return success(true);
+    }
+
+    @DeleteMapping("/delete")
+    @Operation(summary = "删除 API 密钥")
+    @PreAuthorize("@ss.hasPermission('ai:api-key:delete')")
+    public CommonResult<Boolean> deleteApiKey(@RequestParam("id") Long id){
+        apiKeyService.deleteApiKey(id);
+        return success(true);
     }
 
 }
