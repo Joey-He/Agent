@@ -5,6 +5,7 @@ import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.ai.controller.admin.model.vo.apikey.AiApiKeyPageReqVO;
 import cn.iocoder.yudao.module.ai.controller.admin.model.vo.apikey.AiApiKeyRespVO;
 import cn.iocoder.yudao.module.ai.controller.admin.model.vo.apikey.AiApiKeySaveReqVO;
+import cn.iocoder.yudao.module.ai.controller.admin.model.vo.model.AiModelRespVO;
 import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiApiKeyDO;
 import cn.iocoder.yudao.module.ai.service.model.AiApiKeyService;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
@@ -16,7 +17,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
+import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 
 @Tag(name = "管理后台 - AI API 密钥")
 @RestController
@@ -64,5 +68,13 @@ public class AiApiKeyController {
         apiKeyService.deleteApiKey(id);
         return success(true);
     }
+
+    @GetMapping("/simple-list")
+    @Operation(summary = "获得 API 密钥分页列表")
+    public CommonResult<List<AiModelRespVO>> getApiKeySimpleList(){
+        List<AiApiKeyDO> list = apiKeyService.getApiKeyList();
+        return success(convertList(list, key -> new AiModelRespVO().setId(key.getId()).setName(key.getName())));
+    }
+
 
 }
