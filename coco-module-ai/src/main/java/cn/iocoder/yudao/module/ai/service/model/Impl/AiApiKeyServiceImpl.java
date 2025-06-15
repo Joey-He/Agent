@@ -12,6 +12,8 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
+
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.module.ai.enums.write.ErrorCodeConstants.API_KEY_NOT_EXISTS;
 
@@ -57,6 +59,11 @@ public class AiApiKeyServiceImpl implements AiApiKeyService {
     public void deleteApiKey(Long id) {
         validateApiKeyExists(id);
         apiKeyMapper.deleteById(id);
+    }
+
+    @Override
+    public List<AiApiKeyDO> getApiKeyList() {
+        return apiKeyMapper.selectList();
     }
 
     private AiApiKeyDO validateApiKeyExists(Long id) {
