@@ -1,6 +1,11 @@
 package cn.iocoder.yudao.module.ai.dal.dataobject.chat;
 
+import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.yudao.framework.mybatis.core.type.LongListTypeHandler;
+import cn.iocoder.yudao.module.ai.dal.dataobject.knowledge.AiKnowledgeSegmentDO;
+import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiChatRoleDO;
+import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiModelDO;
+import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -12,12 +17,20 @@ import org.springframework.ai.chat.messages.MessageType;
 
 import java.util.List;
 
+/**
+ * AI Chat 消息 DO
+ *
+ * @since 2024/4/14 17:35
+ * @since 2024/4/14 17:35
+ */
 @TableName(value = "ai_chat_message", autoResultMap = true)
+@KeySequence("ai_chat_conversation_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class AiChatMessageDO {
+@AllArgsConstructor
+public class AiChatMessageDO extends BaseDO {
+
     /**
      * 编号，作为每条聊天记录的唯一标识符
      */
@@ -90,4 +103,5 @@ public class AiChatMessageDO {
      */
     @TableField(typeHandler = LongListTypeHandler.class)
     private List<Long> segmentIds;
+
 }
